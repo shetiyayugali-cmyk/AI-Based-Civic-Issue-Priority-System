@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Submit Complaint - GrievanceAI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="logo">🛡️ GrievanceAI</div>
+
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/">Submit Complaint</a>
+        <a href="/dashboard">Dashboard</a>
+
+        {% if user %}
+            <span style="margin-left:20px; color:#cbd5e1;">
+                👤 {{ user }}
+                {% if user == "admin" %}
+                    <span style="color:gold;">👑 Admin</span>
+                {% endif %}
+            </span>
+            <a href="/logout">Logout</a>
+        {% else %}
+            <a href="/login">Login</a>
+            <a href="/signup">Signup</a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- MAIN -->
+<div class="auth-container">
+
+    <div class="auth-card">
+
+        <h1>📝 Submit Complaint</h1>
+        <p class="subtitle">Report civic issues and AI will classify urgency</p>
+
+        <div class="card">
+
+            <form method="POST" enctype="multipart/form-data">
+
+                <h2 style="margin-bottom:15px;">📄 Complaint Details</h2>
+
+                <!-- CATEGORY -->
+                <label>Category</label>
+                 <select name="category">
+
+<option>Garbage</option>
+<option>Pothole</option>
+<option>Water Leakage</option>
+<option>Streetlight</option>
+<option>Damaged Roads</option>
+<option>Water Supply</option>
+<option>Open Manholes</option>
+<option>Drainage Overflow</option>
+
+<!-- SAFETY -->
+<option>Gas Leakage</option>
+<option>Electric Wire</option>
+<option>Fire Hazard</option>
+<option>Tree Fall</option>
+<option>Building Damage</option>
+
+<!-- SANITATION -->
+<option>Cleaning</option>
+<option>Dustbin Issue</option>
+<option>Sewage Problem</option>
+<option>Public Toilet</option>
+
+<!-- TRAFFIC -->
+<option>Traffic Signal</option>
+<option>Illegal Parking</option>
+
+<!-- SOCIAL -->
+<option>Stray Animals</option>
+<option>Noise Complaint</option>
+
+<!-- MAINTENANCE -->
+<option>Park Maintenance</option>
+<option>Road Marking</option>
+<option>Tree Trimming</option>
+
+<option>Other</option>
+
+</select>
+
+                <!-- DESCRIPTION -->
+                <label>Description</label>
+                <textarea name="complaint" required></textarea>
+
+                <!-- LOCATION -->
+                <label>Location</label>
+                <input type="text" name="place" required>
+
+                <!-- IMAGE -->
+                <label>Upload Image</label>
+                <input type="file" name="image">
+
+                <!-- BUTTON -->
+                <button type="submit">🚀 Submit Complaint</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

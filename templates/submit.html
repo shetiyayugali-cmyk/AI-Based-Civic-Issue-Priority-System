@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Submit Complaint - GrievanceAI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+
+    <div class="logo">🛡️ GrievanceAI</div>
+
+    <div class="nav-links">
+        <a href="/">Home</a>
+
+        {% if role == "user" %}
+            <a href="/submit">Submit Complaint</a>
+        {% endif %}
+
+        <a href="/dashboard">Dashboard</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+</div>
+<!-- CENTER PAGE -->
+
+<div class="page-center">
+<div class="card">
+
+<h2>Submit Complaint</h2>
+
+<form method="POST" enctype="multipart/form-data">
+
+<select name="category">
+                <option>Garbage</option>
+                <option>Pothole</option>
+                <option>Water Leakage</option>
+                <option>Streetlight</option>
+                <option>Damaged Roads</option>
+                <option>Water Supply</option>
+                <option>Open Manholes</option>
+                <option>Drainage Overflow</option>
+                <option>Gas Leakage</option>
+                <option>Electric Wire</option>
+                <option>Fire Hazard</option>
+                <option>Tree Fall</option>
+                <option>Building Damage</option>
+                <option>Cleaning</option>
+                <option>Dustbin Issue</option>
+                <option>Sewage Problem</option>
+                <option>Public Toilet</option>
+                <option>Traffic Signal</option>
+                <option>Illegal Parking</option>
+                <option>Stray Animals</option>
+                <option>Noise Complaint</option>
+                <option>Park Maintenance</option>
+                <option>Road Marking</option>
+                <option>Tree Trimming</option>                                                                                                                    
+                <option>Pothole</option> 
+                <option>Others</option>
+</select>
+
+<textarea name="complaint" placeholder="Description"></textarea>
+
+<input type="text" name="place" placeholder="Location">
+
+<input type="file" name="image">
+
+<button>Submit</button>
+
+</form>
+
+</div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signup - GrievanceAI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="page-center">
+<div class="card">
+
+<h1>Signup - GrievanceAI </h1>
+
+<form method="POST">
+
+<input type="text" name="name" placeholder="Name" required>
+
+<input type="email" name="email" placeholder="Email">
+
+<input type="tel" name="phone"
+       placeholder="Enter 10-digit number"
+       pattern="[0-9]{10}" maxlength="10" required
+       oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)">
+
+<button>Signup</button>
+
+</form>
+
+<a href="/login">Login</a>
+
+</div>
+</div>
+
+</body>
+</html>

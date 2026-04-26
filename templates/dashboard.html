@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard - GrievanceAI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="logo">🛡️ GrievanceAI</div>
+
+    <div class="nav-links">
+        <a href="/">Home</a>
+
+        {% if role == "user" %}
+            <a href="/submit">Submit Complaint</a>
+        {% endif %}
+
+        <a href="/dashboard">Dashboard</a>
+
+        <!-- ✅ USER NAME + ROLE -->
+        <span class="user-info">
+            👤 {{ name | capitalize }} ({{ role | capitalize }})
+        </span>
+
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard-container">
+
+    <h2>📊 Complaint Dashboard</h2>
+
+    <!-- FILTER BUTTONS -->
+    {% if role == "admin" or role == "municipal" %}
+    <div class="filters">
+        <a href="/dashboard" class="filter-btn">All</a>
+        <a href="/dashboard?priority=High" class="filter-btn high">High</a>
+        <a href="/dashboard?priority=Medium" class="filter-btn medium">Medium</a>
+        <a href="/dashboard?priority=Low" class="filter-btn low">Low</a>
+    </div>
+    {% endif %}
+
+    <div class="table-wrapper">
+        <table class="dashboard-table">
+
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Place</th>
+                <th>Contact</th>
+                <th>Complaint</th>
+                <th>Civic</th>
+                <th>Safety</th>
+                <th>Priority</th>
+                <th>Time</th>
+                <th>Image</th>
+
+                {% if role == "admin" %}
+                    <th>Fake</th>
+                {% endif %}
+
+                <th>Resolution</th>
+                <th>Status</th>
+                <th>Solution</th>
+
+                {% if role == "admin" or role == "municipal" %}
+                    <th>Action</th>
+                {% endif %}
+
+                {% if role == "admin" %}
+                    <th>Delete</th>
+                {% endif %}
+            </tr>
+
+            {% for row in complaints %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+                <td>{{ row[5] }}</td>
+
+                <!-- SAFETY -->
+                <td>
+                    {% if row[6] == "Yes" %}
+                        <span class="safety-yes">Yes</span>
+                    {% else %}
+                        <span class="safety-no">No</span>
+                    {% endif %}
+                </td>
+
+                <!-- PRIORITY -->
+                <td>
+                    {% if row[7] == "High" %}
+                        <span class="priority high">High</span>
+                    {% elif row[7] == "Medium" %}
+                        <span class="priority medium">Medium</span>
+                    {% else %}
+                        <span class="priority low">Low</span>
+                    {% endif %}
+                </td>
+
+                <td>{{ row[8] }}</td>
+
+                <!-- IMAGE -->
+                <td>
+                    {% if row[9] %}
+                        <img src="{{ url_for('static', filename='uploads/' + row[9]) }}" class="complaint-img">
+                    {% else %}
+                        No Image
+                    {% endif %}
+                </td>
+
+                {% if role == "admin" %}
+                    <td>{{ row[10] }}</td>
+                {% endif %}
+
+                <td>{{ row[11] }}</td>
+
+                <!-- STATUS -->
+                <td>
+                    {% if row[12] == "Pending" %}
+                        <span class="status pending">Pending</span>
+                    {% elif row[12] == "In Progress" %}
+                        <span class="status progress">In Progress</span>
+                    {% else %}
+                        <span class="status completed">Completed</span>
+                    {% endif %}
+                </td>
+
+                <!-- SOLUTION -->
+                <td>
+                    {% if row[13] and row[13] != "Not Provided" %}
+                        <span class="solution-text">{{ row[13] }}</span>
+                    {% else %}
+                        <span class="no-solution">Not Provided</span>
+                    {% endif %}
+                </td>
+
+                <!-- ACTION -->
+                {% if role == "admin" or role == "municipal" %}
+                <td>
+
+                    <!-- STATUS BUTTON -->
+                    {% if row[12] == "Pending" %}
+                        <form method="POST" action="/start/{{ row[0] }}">
+                            <button class="start-btn">➡ Start</button>
+                        </form>
+
+                    {% elif row[12] == "In Progress" %}
+                        <form method="POST" action="/complete/{{ row[0] }}">
+                            <button class="complete-btn">✔ Complete</button>
+                        </form>
+
+                    {% else %}
+                        <span class="done">✔ Done</span>
+                    {% endif %}
+
+                    <!-- SOLUTION INPUT ONLY ONCE -->
+                    {% if not row[13] or row[13] == "Not Provided" %}
+                        <form method="POST" action="/solution/{{ row[0] }}">
+                            <input type="text" name="solution" placeholder="Enter solution">
+                            <button class="action-btn">Save</button>
+                        </form>
+                    {% endif %}
+
+                </td>
+                {% endif %}
+
+                <!-- DELETE -->
+                {% if role == "admin" %}
+                <td>
+                    <a href="/delete/{{ row[0] }}"
+                       onclick="return confirm('Delete this complaint?')"
+                       class="delete-btn">
+                       Delete
+                    </a>
+                </td>
+                {% endif %}
+
+            </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>
